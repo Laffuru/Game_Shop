@@ -94,6 +94,21 @@ const characteristics = sequelize.define('characteristics', {
     }
 })
 
+const UserRole = sequelize.define('user_role', {
+    id: {
+        type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false
+    },
+    user_id: {
+        type: DataTypes.INTEGER, allowNull: false
+    },
+    name: {
+        type: DataTypes.STRING, allowNull: false
+    },
+    permission_level: {
+        type: DataTypes.STRING, allowNull: false
+    }
+})
+
 const Genre = sequelize.define('genre', {
     id: {
         type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true, allowNull: false
@@ -178,6 +193,9 @@ Game.belongsTo(Image, {foreignKey: 'image_id'});
 Genre.hasOne(Game, {foreignKey: 'id'});
 Game.belongsTo(Genre, {foreignKey: 'genre'});
 
+User.hasOne(UserRole, {foreignKey: 'id'});
+UserRole.belongsTo(User, {foreignKey: 'user_id'});
+
 Release.hasOne(Game, {foreignKey: 'id'});
 Game.belongsTo(Release, {foreignKey: 'game_release'});
 
@@ -189,6 +207,7 @@ Rating.belongsTo(Game, {foreignKey: 'id'});
 
 User.hasMany(Rating, {foreignKey: 'id'});
 Rating.belongsTo(User, {foreignKey: 'user_id'});
+
 
 module.exports = {
     User,
@@ -203,5 +222,6 @@ module.exports = {
     Genre,
     Release,
     Creator,
-    Rating
+    Rating,
+    UserRole
 };
